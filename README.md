@@ -50,15 +50,8 @@ samples, guidance on mobile development, and a full API reference.
 ###3. pytorch-mobile后的模型版本(model_bytecode_version)需要为-5(>=5时，需要降低其版本，否则无法进行模型推理)
 
 
-## my_predict_plugin插件使用步骤
-###1. 在要使用my_predict_plugin插件的flutter项目中配置my_predict_plugin依赖。
-```
-dependencies:
-  flutter:
-    sdk: flutter
-  my_predict_plugin:
-    path: ./my_predict_plugin   #my_predict_plugin插件文件相对于当前pubspec.yaml文件的相对位置，此处需要根据具体项目结构进行更改
-```
+## [my_predict_plugin插件使用步骤请点击此处查看](./my_predict_plugin/README.md)
+
 
 
 
