@@ -1,0 +1,7 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  package="com.example.my_predict_plugin">
+<!--    获取手机存储器权限，才能读取手机上的图片-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+</manifest>
+
+
