@@ -37,25 +37,25 @@ my_predict_plugin
 ```
 
 ## 项目技术方法
-###1. pythorch-mobile
+### 1. pythorch-mobile
 - 使用pytroch进行害模型训练，并将保存模型转换为PyTorch Mobile所需要的模型格式(.pt格式)。
 - 使用Android原生java代码对模型进行加载、推理。
 
-###2. flutter-Platform Channel(平台通道)
+### 2. flutter-Platform Channel(平台通道)
 - 平台通道介绍：Platform Channel 是一个异步消息通道，消息在发送之前会编码成二进制消息，接收到的二进制消息会解码成 Dart 值，其传递的消息类型只能是对应的解编码器支持的值，所有的解编码器都支持空消息。
 - 使用Platform Channel(平台通道)实现flutter的dart代码调用Android原生模型推理的java代码，实现Android原生代码与flutter代码的交互。
 
-###3. flutter-Isolate
+### 3. flutter-Isolate
 - 使用 isolate 创建新线程，用于进行消耗较多资源的模型推理，避开主线程，不干扰UI刷新，避免主进程执行任务过多导致程序崩溃。
 
 ## my_predict_plugin插件使用版本要求
-###1. Flutter 3.7.11 • channel stable (其他版本未测试)
-###2. Android minSdkVersion 21
-###3. pytorch-mobile后的模型版本(model_bytecode_version)需要为-5(>=5时，需要降低其版本，否则无法进行模型推理)
+### 1. Flutter 3.7.11 • channel stable (其他版本未测试)
+### 2. Android minSdkVersion 21
+### 3. pytorch-mobile后的模型版本(model_bytecode_version)需要为-5(>=5时，需要降低其版本，否则无法进行模型推理)
 
 
 ## my_predict_plugin插件使用步骤
-###1. 在要使用my_predict_plugin插件的flutter项目中配置my_predict_plugin依赖。
+### 1. 在要使用my_predict_plugin插件的flutter项目中配置my_predict_plugin依赖。
 ```
 dependencies:
   flutter:
@@ -64,7 +64,7 @@ dependencies:
     path: ./my_predict_plugin   #my_predict_plugin插件文件相对于当前pubspec.yaml文件的相对位置，此处需要根据具体项目结构进行更改
 ```
 
-###2. 在要使用的flutter项目的lib文件中创建`my_isolate_interface.dart`文件，文件内容如下。
+### 2. 在要使用的flutter项目的lib文件中创建`my_isolate_interface.dart`文件，文件内容如下。
 ```
 import 'dart:async';
 import 'dart:ui';
@@ -124,7 +124,7 @@ Future<void> _doInference(Map<String, dynamic> message) async {
 }
 ```
 
-###3. 在要使用插件的dart文件中import刚刚创建的`my_isolate_interface.dart`文件，使用如下函数调用模型推理函数。
+### 3. 在要使用插件的dart文件中import刚刚创建的`my_isolate_interface.dart`文件，使用如下函数调用模型推理函数。
 ```
 import 'my_isolate_interface.dart';
 ```
@@ -134,7 +134,7 @@ import 'my_isolate_interface.dart';
 resultId=await runInference(_imagepath);
 ```
 
-###4.修改项目文件中的`/android/app/build.gradle`文件中的`minSdkVersion flutter.minSdkVersion`为`minSdkVersion 21`，因为。
+### 4.修改项目文件中的`/android/app/build.gradle`文件中的`minSdkVersion flutter.minSdkVersion`为`minSdkVersion 21`，因为。
 (如果编译运行时报错`uses-sdk:minSdkVersion 16 cannot be smaller than version 21 declared in library [:my_predict_plugin]`时，修改`minSdkVersion flutter.minSdkVersion`为`minSdkVersion 21`。
 因为`my_predict_plugin`使用到了`org.pytorch:pytorch_android_lite:1.10.0`，而`org.pytorch:pytorch_android_lite:1.10.0`的依赖要求为`minSdkVersion 21`。
 ```
