@@ -134,4 +134,18 @@ import 'my_isolate_interface.dart';
 resultId=await runInference(_imagepath);
 ```
 
+###4.修改项目文件中的`/android/app/build.gradle`文件中的`minSdkVersion flutter.minSdkVersion`为`minSdkVersion 21`，因为。
+(如果编译运行时报错`uses-sdk:minSdkVersion 16 cannot be smaller than version 21 declared in library [:my_predict_plugin]`时，修改`minSdkVersion flutter.minSdkVersion`为`minSdkVersion 21`。
+因为`my_predict_plugin`使用到了`org.pytorch:pytorch_android_lite:1.10.0`，而`org.pytorch:pytorch_android_lite:1.10.0`的依赖要求为`minSdkVersion 21`。
+```
+    defaultConfig {
+        applicationId "com.example.bchapp"
+//        minSdkVersion flutter.minSdkVersion  //修改前
+        minSdkVersion 21  //修改后
+        targetSdkVersion flutter.targetSdkVersion
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+    }
+```
+
 
