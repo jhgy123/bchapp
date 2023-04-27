@@ -52,7 +52,7 @@ class _ImageSelectionPageState extends State<ImageSelectionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('选择并推理图片'),
+        title: Text('选择图片并推理'),
       ),
       body: Center(
         child: Column(
