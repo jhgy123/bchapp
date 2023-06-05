@@ -131,7 +131,13 @@ import 'my_isolate_interface.dart';
 ```
 //_imagepath:要处理的图片相对于手机设备的绝对路径
 //runInference(_imagepath)返回推理处理后对应类别的ID值
-resultId=await runInference(_imagepath);
+//病害推理处理
+resultId=await bhRunInference(_imagepath);
+
+//_imagepath:要处理的图片相对于手机设备的绝对路径
+//runInference(_imagepath)返回推理处理后对应类别的ID值
+//虫害推理处理
+resultId=await chRunInference(_imagepath);
 ```
 
 ### 4.修改项目文件中的`/android/app/build.gradle`文件中的`minSdkVersion flutter.minSdkVersion`为`minSdkVersion 21`，因为。
