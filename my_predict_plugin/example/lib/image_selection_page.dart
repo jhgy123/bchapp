@@ -39,7 +39,8 @@ class _ImageSelectionPageState extends State<ImageSelectionPage> {
     if (_imageFile != null) {
       String resultId="";
       /********  该处是调用推理函数runInference才UI进程中获取结果   ******/
-      resultId=await runInference(_imagepath);
+      // resultId=await bhRunInference(_imagepath);
+      resultId=await chRunInference(_imagepath);
       /********  *****************************************   ******/
       return resultId;
     } else {

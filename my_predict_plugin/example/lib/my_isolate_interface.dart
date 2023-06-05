@@ -17,14 +17,16 @@ import 'dart:isolate';
  * String input：处理图片在手机上的绝对路径
  */
 
-Future<String> runInference(String ImageAbsolutePath) async {
+
+//*********************病害********************
+Future<String> bhRunInference(String ImageAbsolutePath) async {
   final receivePort = ReceivePort();
   RootIsolateToken rootIsolateToken = RootIsolateToken.instance!;
   String inferenceResult="";
   // print("1");
   Map<String, dynamic> message={'input':ImageAbsolutePath, 'sendPort':receivePort.sendPort,'rootIsolateToken':rootIsolateToken};
   //后台isolate通道
-  await Isolate.spawn(_doInference,message);
+  await Isolate.spawn(_doBHInference,message);
   // print("3");
   final completer = Completer<void>();
   //获取isolate通道后台处理结果
@@ -42,7 +44,7 @@ Future<String> runInference(String ImageAbsolutePath) async {
  *  功能：调用 yPredictPlugin插件的推理方法，实现推理，并返回结果
  *  message={'input':ImageAbsolutePath, 'sendPort':receivePort.sendPort,'rootIsolateToken':rootIsolateToken}
  */
-Future<void> _doInference(Map<String, dynamic> message) async {
+Future<void> _doBHInference(Map<String, dynamic> message) async {
 
   final input = message['input'];
   final sendPort = message['sendPort'];
@@ -62,6 +64,51 @@ Future<void> _doInference(Map<String, dynamic> message) async {
   sendPort.send(result);
 }
 
+//*********************病害********************
+Future<String> chRunInference(String ImageAbsolutePath) async {
+  final receivePort = ReceivePort();
+  RootIsolateToken rootIsolateToken = RootIsolateToken.instance!;
+  String inferenceResult="";
+  // print("1");
+  Map<String, dynamic> message={'input':ImageAbsolutePath, 'sendPort':receivePort.sendPort,'rootIsolateToken':rootIsolateToken};
+  //后台isolate通道
+  await Isolate.spawn(_doCHInference,message);
+  // print("3");
+  final completer = Completer<void>();
+  //获取isolate通道后台处理结果
+  receivePort.listen((result) {
+    inferenceResult=result;
+    print('Isolate inference result: $result');
+    completer.complete();
+  });
+  await completer.future;
+  return inferenceResult;
+}
+
+/**
+ * 注意：// isolate入口函数，该函数必须是静态的或顶级函数，不能是匿名内部函数。
+ *  功能：调用 yPredictPlugin插件的推理方法，实现推理，并返回结果
+ *  message={'input':ImageAbsolutePath, 'sendPort':receivePort.sendPort,'rootIsolateToken':rootIsolateToken}
+ */
+Future<void> _doCHInference(Map<String, dynamic> message) async {
+
+  final input = message['input'];
+  final sendPort = message['sendPort'];
+  final rootIsolateToken = message['rootIsolateToken'];
+  BackgroundIsolateBinaryMessenger
+      .ensureInitialized(rootIsolateToken);
+  // final _myPredictPlugin = MyPredictPlugin();
+  // print(input);
+  String result="";
+  // print("2");
+  try {
+    result =
+        await MyPredictPlugin.getCHid(input) ?? 'Unknown image';
+  } on PlatformException {
+    result = 'Failed to get class id.';
+  }
+  sendPort.send(result);
+}
 /********************************************************************************
  * **/
 

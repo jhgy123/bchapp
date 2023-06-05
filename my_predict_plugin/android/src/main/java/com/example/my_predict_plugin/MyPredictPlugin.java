@@ -80,7 +80,7 @@ public class MyPredictPlugin implements FlutterPlugin, MethodCallHandler{
     else if(call.method.equals("getCHid")){  //获取病害方法
       /******* 虫害害模型文件 ******/
 //      String BHModelFlieName="vgg13_bh_38class_mobile.pt";
-      String CHModelFlieName="";
+      String CHModelFlieName="squeezenet1_1_ch_50class_mobile.pt";
       System.out.println("CH Class number:"+CHClasses.CH_CLASSES_ID.length);
       String imagePath = call.argument("imagePath");
 
